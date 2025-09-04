@@ -9,9 +9,9 @@ generator client {
 }
 
 datasource db {
-  provider     = "mongodb"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum OrderStatus {
@@ -101,7 +101,7 @@ model User {
 }
 
 model Configuration {
-  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  id              String        @id @default(cuid())
   width           Int
   height          Int
   url             String
@@ -114,8 +114,8 @@ model Configuration {
 }
 
 model Order {
-  id              String  @id @default(auto()) @map("_id") @db.ObjectId
-  configurationId String  @db.ObjectId
+  id              String  @id @default(cuid())
+  configurationId String
   userId          String
   amount          Float
   isPaid          Boolean @default(false)
@@ -128,12 +128,12 @@ model Order {
   status            OrderStatus      @default(awaiting_shipment)
   shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
   billingAddress    BillingAddress?  @relation(fields: [billingAddressId], references: [id])
-  shippingAddressId String?          @db.ObjectId
-  billingAddressId  String?          @db.ObjectId
+  shippingAddressId String?
+  billingAddressId  String?
 }
 
 model ShippingAddress {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  id          String  @id @default(cuid())
   name        String
   street      String
   postalCode  String
@@ -145,7 +145,7 @@ model ShippingAddress {
 }
 
 model BillingAddress {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  id          String  @id @default(cuid())
   name        String
   street      String
   postalCode  String
