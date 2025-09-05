@@ -25,7 +25,7 @@ const DesignPreview = ({ configuration }: Props) => {
 
     const router = useRouter();
 
-    const { user } = useKindeBrowserClient();
+    const { user, isAuthenticated } = useKindeBrowserClient();
 
     const { id, color, model, finish, material } = configuration;
 
@@ -87,9 +87,10 @@ const DesignPreview = ({ configuration }: Props) => {
     }
 
     const handleCheckout = async () => {
+        console.log('isAuthenticated:', isAuthenticated, 'user:', user);
         setIsPending(true);
         try {
-            if (user) {
+            if (isAuthenticated && user) {
                 const res = await createCheckoutSession({ configId: id });
                 if (res.error) {
                     toast.error("Something went wrong", {
