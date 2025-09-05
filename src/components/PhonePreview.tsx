@@ -113,21 +113,25 @@ const PhonePreview = ({ croppedImageUrl, color }: Props) => {
                         renderedDimensions.width / (1216 / 121),
                     top: renderedDimensions.height / 6.22,
                 }}>
-                <img
+                <Image
                     width={renderedDimensions.width / (3000 / 637)}
+                    height={renderedDimensions.width / (3000 / 637) * (2001 / 3000)} // Approximate aspect ratio
                     className={cn(
                         "phone-skew relative z-20 rounded-t-[15px] rounded-b-[10px] md:rounded-t-[30px] md:rounded-b-[20px]",
                         caseBgColor
                     )}
                     src={croppedImageUrl}
+                    alt="Phone case design"
                 />
             </div>
 
             <div className="relative h-full w-full z-40">
-                <img
+                <Image
                     src="/clearphone.png"
-                    alt="phone"
+                    alt="Phone case preview"
                     className="pointer-events-none h-full w-full antialiased rounded-md"
+                    width={3000}
+                    height={2001}
                 />
             </div>
         </AspectRatio>
